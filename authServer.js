@@ -57,8 +57,23 @@ app.post("/register", async (req,res) => {
       })
       }) 
 
+
+    function generateAccessToken(user) {
+        return 
+            jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "15m"}) 
+    }
+
+    let refreshTokens = []
+
+    function generateRefreshToken(user) {
+        const refreshToken = 
+            jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {expiresIn: "20m"})
+        refreshTokens.push(refreshToken)
+        return refreshToken
+    }
+
 app.post("/login", async (req,res) => {
-    const user = req.body.usernamename
+    const user = req.body.username
     const password = req.body.password
 
     db.getConnection ( async (err, connection)=> {
@@ -94,6 +109,21 @@ app.post("/login", async (req,res) => {
  })
 })
 
+app.post("/refreshToken", (req,res) => {
+    if (!refreshTokens.includes(req.body.token)) res.status(400).send("Refresh Token Invalid")
+    refreshTokens = refreshTokens.filter( (c) => c != req.body.token)
+
+    const accessToken = generateAccessToken ({user: req.body.username})
+    const refreshToken = generateRefreshToken ({user: req.body.username})
+
+    res.json ({accessToken: accessToken, refreshToken: refreshToken})
+    })
+
+app.delete("/logout", (req,res)=>{
+    refreshTokens = refreshTokens.filter( (c) => c != req.body.token)
+
+    res.status(204).send("Logged out!")
+    })
 
     const port = process.env.TOKEN_SERVER_PORT;
 
