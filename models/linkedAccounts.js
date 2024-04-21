@@ -24,11 +24,11 @@ module.exports = (sequelize, Sequelize, Users) => {
     });
 
     LinkedAccounts.belongsTo(Users, {
-        foreignKey: 'parentid'
+        foreignKey: 'parent'
     });
 
     LinkedAccounts.belongsTo(Users, {
-        foreignKey: 'studentid'
+        foreignKey: 'student'
     });
 
     return LinkedAccounts;
