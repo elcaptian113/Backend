@@ -1,4 +1,4 @@
-require("dotenv").config()
+require('dotenv').config()
 
 const express = require('express');
 const app = express();
@@ -6,9 +6,12 @@ const bcrypt = require("bcrypt");
 const mysql = require("mysql");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
+var multer = require("multer");
+var upload = multer();
 
 app.use(express.json());
 app.use(cors());
+app.use(upload.array());
 
 const DB_HOST = process.env.DB_HOST
 const DB_USER = process.env.DB_USER
@@ -30,43 +33,48 @@ const db = mysql.createPool({
     })
 
     app.post("/register", async (req,res) => {
+        //console.log(req.body.username);
+        //console.log(req.body.password);
         const user = req.body.username;
         const hashedPassword = await bcrypt.hash(req.body.password,10);
+        console.log(hashedPassword)
 
-    db.getConnection( async (err, connection) => {
-     if (err) throw (err)
+        db.getConnection( async (err, connection) => {
+        if (err) throw (err) 
 
-     const sqlSearch = "SELECT * FROM users WHERE username = ?"
-     const search_query = mysql.format(sqlSearch,[user])
-     const sqlInsert = "INSERT INTO users VALUES (NULL,?,?)"
-     const insert_query = mysql.format(sqlInsert,[user, hashedPassword])
+        const sqlSearch = "SELECT * FROM users WHERE username = ?"
+        const search_query = mysql.format(sqlSearch,[user])
+        const sqlInsert = "INSERT INTO users VALUES (NULL,?,?)"
+        const insert_query = mysql.format(sqlInsert,[user, hashedPassword])
+        console.log(insert_query);
 
-     await connection.query (search_query, async (err, result) => {
-        if (err) throw (err)
-        console.log("------> Search Results")
-        console.log(result.length)
-        if (result.length != 0) {
-         connection.release()
-         console.log("------> User already exists")
-         res.sendStatus(409) 
-        } 
-        else {
-         await connection.query (insert_query, (err, result)=> {
-         connection.release()
-         if (err) throw (err)
-         console.log ("--------> Created new User")
-         console.log(result.insertId)
-         res.sendStatus(201)
+        await connection.query (search_query, async (err, result) => {
+            if (err) throw (err)
+            console.log("------> Search Results")
+            console.log(result.length)
+            if (result.length != 0) {
+            connection.release()
+            console.log("------> User already exists")
+            res.sendStatus(409) 
+            } 
+            else {
+            await connection.query (insert_query, (err, result)=> {
+            connection.release()
+            if (err) throw (err)
+            console.log ("--------> Created new User")
+            console.log(result.insertId)
+            res.sendStatus(201)
+            })
+        }
         })
-       }
-      })
-      })
+        })
     }) 
 
 
     function generateAccessToken(user) {
-        return 
+       const accessToken =  
             jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "15m"}) 
+        return accessToken
     }
 
     let refreshTokens = []
@@ -84,7 +92,7 @@ const db = mysql.createPool({
 
         db.getConnection ( async (err, connection)=> {
         if (err) throw (err)
-        const sqlSearch = "Select * from userTable where user = ?"
+        const sqlSearch = "Select * from users where username = ?"
         const search_query = mysql.format(sqlSearch,[user])
         await connection.query (search_query, async (err, result) => {
         connection.release()
@@ -104,10 +112,10 @@ const db = mysql.createPool({
 
                 const accessToken = generateAccessToken ({user: user})
                 const refreshToken = generateRefreshToken ({user: user})
-                res.json ({accessToken: accessToken, refreshToken: refreshToken})
+                res.json ({accessToken: accessToken, refreshToken: refreshToken, })
             } 
             else {
-                console.log("--------> Passowrd Incorrect")
+                console.log("--------> Password Incorrect")
                 res.status(401).send("Password Incorrect!")
             }
         }
