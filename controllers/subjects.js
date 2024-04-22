@@ -10,7 +10,7 @@ getAll = async (req, res) =>{
  const subjects = await Subjects.findAll({order: ['subjectid']});
  res.status(200).json(subjects);
 }
-
+//GET by subject id endpoint
 getById = async (req, res) =>{
     const id =req.params.id;
     try{

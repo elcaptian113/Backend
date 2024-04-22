@@ -5,7 +5,7 @@ const db = require('../models');
 
 const Modules = db.modules;
 
-//GET all endpoint
+//GET all modules endpoint
 getAll = async (req, res) =>{
  const modules = await Modules.findAll({order: ['moduleid']});
  res.status(200).json(modules);

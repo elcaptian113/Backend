@@ -5,7 +5,7 @@ const db = require('../models');
 
 const Chapters = db.chapters;
 
-//GET all endpoint
+//GET all chapters endpoint
 getAll = async (req, res) =>{
  const chapters = await Chapters.findAll({order: ['chapterid']});
  res.status(200).json(chapters);
