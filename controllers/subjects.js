@@ -1,7 +1,7 @@
 //import file dependencies for endpoints
 const utilities = require('../utilities/utility');
 const db = require('../models');
-const { getById } = require('./users');
+
 
 const Subjects = db.subjects;
 
@@ -58,7 +58,7 @@ update = async (req, res) => {
         if (!subject.level || !subject.name || !subject.number_of_chapters) {
             throw new Error("Essential fields missing");
         }
-        await Subjects.update(subject, { where: { id: id } });
+        await Subjects.update(subject, { where: { subjectid: id } });
         res.status(200).json(subject);
     } catch (error) {
         utilities.formatErrorResponse(res, 400, error.message);
@@ -69,7 +69,7 @@ update = async (req, res) => {
 deleting = async (req, res) =>{
     const id =req.body.id;
     try{
-        const deleted = await Subjects.destroy({where: { id: id }});
+        const deleted = await Subjects.destroy({where: { subjectid: id }});
         if (deleted==0) {
             throw new Error("Id not found");
          }

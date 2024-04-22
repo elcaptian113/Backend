@@ -7,7 +7,7 @@ const Chapters = db.chapters;
 
 //GET all endpoint
 getAll = async (req, res) =>{
- const chapters = await Chapters.findAll({order: ['subjectid']});
+ const chapters = await Chapters.findAll({order: ['chapterid']});
  res.status(200).json(chapters);
 }
 
@@ -31,7 +31,7 @@ getBySubject = async (req, res) =>{
     const subject =req.params.value;
     try{
     const chapters = await Chapters.findAll(
-    {where: {subject: subject},
+    {where: {subjectid: subject},
     });
     if(chapters.length==0){
     throw new Error("Unable to find a Chapters belonging to: " + subject);
@@ -45,17 +45,18 @@ getBySubject = async (req, res) =>{
 
 //POST endpoint for subject creation
 create = async (req, res) =>{
-    const subject = {
-        level: req.body.level,
-        name: req.body.name,
-        number_of_chapters: req.body.number_of_chapters
+    const chapter = {
+        subjectid: req.body.subjectid,
+        chapter_number: req.body.chapter_number,
+        chapter_name: req.body.chapter_name,
+        number_of_modules: req.body.number_of_modules
     };
     try{
-        if(!subject.level || !subject.name || !subject.number_of_chapters){
+        if(!chapter.subjectid || !chapter.number || !chapter.chapter_name || !chapter.number_of_modules){
                 throw new Error("Essential fields missing");
             }
-            await Chapters.create(subject);
-            res.status(201).json(subject);
+            await Chapters.create(chapter);
+            res.status(201).json(chapter);
     }
     catch (error){
         utilities.formatErrorResponse(res,400,error.message);
@@ -67,17 +68,18 @@ create = async (req, res) =>{
 //PUT endpoint for updating existing subject records
 update = async (req, res) => {
     const id = req.body.id;
-    const subject = {
-        level: req.body.level,
-        name: req.body.name,
-        number_of_chapters: req.body.number_of_chapters
+    const chapter = {
+        subjectid: req.body.subjectid,
+        chapter_number: req.body.chapter_number,
+        chapter_name: req.body.chapter_name,
+        number_of_modules: req.body.number_of_modules
     };
     try {
-        if (!subject.level || !subject.name || !subject.number_of_chapters) {
+        if (!chapter.subjectid || !chapter.number || !chapter.chapter_name || !chapter.number_of_modules) {
             throw new Error("Essential fields missing");
         }
-        await Chapters.update(subject, { where: { id: id } });
-        res.status(200).json(subject);
+        await Chapters.update(chapter, { where: { chapterid: id } });
+        res.status(200).json(chapter);
     } catch (error) {
         utilities.formatErrorResponse(res, 400, error.message);
     }
@@ -87,7 +89,7 @@ update = async (req, res) => {
 deleting = async (req, res) =>{
     const id =req.body.id;
     try{
-        const deleted = await Chapters.destroy({where: { id: id }});
+        const deleted = await Chapters.destroy({where: { chapterid: id }});
         if (deleted==0) {
             throw new Error("Id not found");
          }
