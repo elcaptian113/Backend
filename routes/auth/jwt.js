@@ -1,7 +1,9 @@
 const jwt = require("jsonwebtoken");
 
+//will get replaced by db - maybe
 let refreshTokens = []
 
+//add in extra payload of user id etc
 export function generateAccessToken(user) {
     const accessToken =  
          jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "15m"}) 
@@ -15,6 +17,7 @@ export function generateRefreshToken(user) {
     return refreshToken
 } 
 
+//maybe cloe this for multi level auth
 export function validateToken(req, res, next) {
         
     const authHeader = req.headers["authorization"]
