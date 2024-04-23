@@ -7,6 +7,13 @@ const registerRouter = require('./routes/register');
 const logoutRouter = require('./routes/logout')
 const refreshRouter = require('./routes/refreshtoken')
 const loginRouter = require ('./routes/login');
+const subjectsRouter = require('./routes/subjects');
+const quizesRouter = require('./routes/quizes');
+const quizActivityRouter = require('./routes/quizActivity');
+const modulesRouter = require('./routes/modules');
+const linkedAccountsRouter = require('./routes/linkedAccounts');
+const courseActivityRouter = require('./routes/courseActivity');
+const chaptersRouter = require('./routes/chapters');
 const cors = require('cors');
 
 
@@ -25,6 +32,13 @@ app.use("/register", registerRouter);
 app.use("/login", loginRouter);
 app.use("/logout", logoutRouter);
 app.use("/refresh", refreshRouter);
+app.use("/subjects", subjectsRouter);
+app.use("/chapters", chaptersRouter);
+app.use("/modules", modulesRouter);
+app.use("/quizes", quizesRouter);
+app.use("/quizactivity", quizActivityRouter);
+app.use("/courseactivity", courseActivityRouter);
+app.use("/linkedaccounts", linkedAccountsRouter);
 
 
 app.use((req, res) =>

@@ -1,11 +1,10 @@
-const controller = require('../controllers/users');
+const controller = require('../controllers/chapters');
 var express = require('express');
-const { validateToken } = require('./auth/jwt');
 var router = express.Router();
 
-router.get('/',controller.getAll);
+router.get('/', controller.getAll);
 router.get('/:id', controller.getById);
-router.get('/username/:value', controller.getByUsername);
+router.get('/subject/:value', controller.getBySubject);
 router.post('/', controller.create);
 router.put('/', controller.update);
 router.delete('/', controller.deleting);
