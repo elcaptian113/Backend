@@ -134,6 +134,7 @@ const db = mysql.createPool({
     })
 
     app.delete("/logout", (req,res)=>{
+        //needs a token table creating - this function deletes refresh token
         refreshTokens = refreshTokens.filter( (c) => c != req.body.token)
 
         res.status(204).send("Logged out!")

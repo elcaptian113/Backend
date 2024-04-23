@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
 
+let refreshTokens = []
+
 export function generateAccessToken(user) {
     const accessToken =  
          jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "15m"}) 

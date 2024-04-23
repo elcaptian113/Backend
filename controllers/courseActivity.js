@@ -66,8 +66,8 @@ getByUserLast = async (req, res) =>{
 //POST endpoint for group creation
 create = async (req, res) =>{
     const ca = {
-        userid: req.body.username,
-        moduleid: req.body.first_name,
+        userid: req.body.userid,
+        moduleid: req.body.moduleid,
     };
     try{
         if(!ca.userid || !ca.moduleid){
