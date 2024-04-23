@@ -27,10 +27,31 @@ getById = async (req, res) =>{
 
 //GET by username endpoint
 getByUser = async (req, res) =>{
-    const usern =req.params.value;
+    const user =req.params.value;
     try{
     const ca = await CA.findAll(
-    {where: {userid: user},
+    {
+        where: {userid: user},
+    });
+    if(ca.length==0){
+    throw new Error("Unable to find a User with userID: " + user);
+    }
+    res.status(200).json(ca);
+    }
+    catch(error){
+    utilities.formatErrorResponse(res,400,error.message);
+    }
+}
+
+//GET latest activity by username endpoint
+getByUserLast = async (req, res) =>{
+    const user =req.params.value;
+    try{
+    const ca = await CA.findAll(
+    {
+        where: {userid: user},
+        order: [['date', 'DESC']],
+        limit: 1
     });
     if(ca.length==0){
     throw new Error("Unable to find a User with userID: " + user);
@@ -78,4 +99,4 @@ deleting = async (req, res) =>{
 }
 
 //export all functions to enable access by other files
-module.exports = {getAll, getById, getByUsername, create, deleting};
+module.exports = {getAll, getById, getByUser, getByUserLast, create, deleting};
