@@ -13,9 +13,15 @@ export function generateAccessToken(userid, username, usertype) {
      return accessToken
 }
 
-export function generateRefreshToken(username) {
+export function generateRefreshToken(userid, username, usertype) {
     const refreshToken = 
-        jwt.sign(username, process.env.REFRESH_TOKEN_SECRET, {expiresIn: "1d"})
+        jwt.sign({
+                "userCreds": {
+                "userid": userid,
+                "username": username,
+                "usertype": usertype
+            }
+        }, process.env.REFRESH_TOKEN_SECRET, {expiresIn: "1d"})
     return refreshToken
 } 
 

@@ -26,7 +26,7 @@ loginHandler = async (req, res) =>{
         if (await bcrypt.compare(password, hashedPassword)) {
 
             const accessToken = generateAccessToken ({userid: user.userid, username: user.username, usertype: user.usertype})
-            const refreshToken = generateRefreshToken ({username: user.username})
+            const refreshToken = generateRefreshToken ({userid: user.userid, username: user.username, usertype: user.usertype})
 
             //create record entry to refresh token table username/token
 
