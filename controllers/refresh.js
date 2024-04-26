@@ -15,9 +15,9 @@ handleRefresh = async (req, res) => {
         (err, user) => {
             if (err || foundUser.username !== user.username) return res.sendStatus(403);
             
-            const accessToken = generateAccessToken ({userid: user.userid, username: user.username, usertype: user.usertype})
+            const accessToken = generateAccessToken ({userid: user.userCreds.userid, username: user.userCreds.username, usertype: user.userCreds.usertype})
 
-            res.json({accessToken: accessToken})
+            res.json({userid: user.userCreds.userid, username: user.userCreds.username, usertype: user.userCreds.usertype, accessToken: accessToken})
         }
     );
 
