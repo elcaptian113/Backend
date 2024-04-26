@@ -3,6 +3,6 @@ var router = express.Router();
 const controller = require('../controllers/refresh');
 
 
-app.get("/", controller.handleRefresh);
+router.get("/", controller.handleRefresh);
 
 module.exports = router;

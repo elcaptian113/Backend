@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 
-export function generateAccessToken(userid, username, usertype) {
+module.exports = {
+generateAccessToken(userid, username, usertype) {
     const accessToken =  
          jwt.sign(
             {
@@ -11,9 +12,9 @@ export function generateAccessToken(userid, username, usertype) {
                 }
             }, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "20s"}) 
      return accessToken
-}
+},
 
-export function generateRefreshToken(userid, username, usertype) {
+generateRefreshToken(userid, username, usertype) {
     const refreshToken = 
         jwt.sign({
                 "userCreds": {
@@ -23,9 +24,9 @@ export function generateRefreshToken(userid, username, usertype) {
             }
         }, process.env.REFRESH_TOKEN_SECRET, {expiresIn: "1d"})
     return refreshToken
-} 
+}, 
 
-export function validateToken(req, res, next) {
+validateToken(req, res, next) {
         
     const authHeader = req.headers["authorization"]
     const token = authHeader.split(" ")[1]
@@ -43,4 +44,5 @@ export function validateToken(req, res, next) {
         next() 
         }
     }) 
-} 
+}
+}

@@ -4,7 +4,7 @@ const express = require('express');
 const logger = require('morgan');
 const usersRouter = require('./routes/users');
 const registerRouter = require('./routes/register');
-const logoutRouter = require('./routes/logout')
+//const logoutRouter = require('./routes/logout')
 const refreshRouter = require('./routes/refreshtoken')
 const loginRouter = require ('./routes/login');
 const subjectsRouter = require('./routes/subjects');
@@ -32,7 +32,7 @@ app.use("/public", express.static(__dirname + '/public'));
 app.use("/users", usersRouter);
 app.use("/register", registerRouter);
 app.use("/login", loginRouter);
-app.use("/logout", logoutRouter);
+//app.use("/logout", logoutRouter);
 app.use("/refresh", refreshRouter);
 app.use("/subjects", subjectsRouter);
 app.use("/chapters", chaptersRouter);

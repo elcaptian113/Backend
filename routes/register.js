@@ -21,7 +21,7 @@ const db = mysql.createPool({
    port: DB_PORT
 })
 
-app.post("/", async (req,res) => {
+router.post("/register", async (req,res) => {
 
     const user = req.body.username;
     const hashedPassword = await bcrypt.hash(req.body.password,10);

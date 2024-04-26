@@ -1,6 +1,5 @@
 const controller = require('../controllers/users');
 var express = require('express');
-const { validateToken } = require('./auth/jwt');
 var router = express.Router();
 
 router.get('/',controller.getAll);

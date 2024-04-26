@@ -1,4 +1,5 @@
-const Users = require('../models/users');
+const db = require('../models');
+const Users = db.users;
 const bcrypt = require("bcrypt");
 const { generateAccessToken, generateRefreshToken } = require('../middleware/jwt');
 
@@ -14,24 +15,26 @@ loginHandler = async (req, res) =>{
   
     const user = await Users.findAll(
     {
-        attributes: ['userid','username','usertype'],
+        attributes: ['userid','username','usertype','password'],
         where: {username: username},
     });
     if (user.length == 0){
         res.sendStatus(404);
     }
     else{
-        const hashedPassword = result[0].password
+        const hashedPassword = user[0].password;
+
 
         if (await bcrypt.compare(password, hashedPassword)) {
 
-            const accessToken = generateAccessToken ({userid: user.userid, username: user.username, usertype: user.usertype})
-            const refreshToken = generateRefreshToken ({userid: user.userid, username: user.username, usertype: user.usertype})
+            const accessToken = generateAccessToken ({userid: user[0].userid, username: user[0].username, usertype: user[0].usertype});
+            const refreshToken = generateRefreshToken ({userid: user[0].userid, username: user[0].username, usertype: user[0].usertype});
 
             //create record entry to refresh token table username/token
+ 
 
             res.cookie('jwt', refreshToken, { httpOnly: true, secure: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 });
-            res.json ({userid: user.userid, username: user.username, usertype: user.usertype, accessToken: accessToken})
+            res.json ({userid: user[0].userid, username: user[0].username, usertype: user[0].usertype, accessToken: accessToken});
         } 
         else {
             res.status(401).send("Password Incorrect!")
