@@ -41,9 +41,7 @@ validateToken(req, res, next) {
         res.status(403).send("Token invalid")
         }
         else {
-        req.userid = user.userCreds.userid;
-        req.username = user.userCreds.username;
-        req.usertype = user.userCreds.usertype;
+        req.user = user.userCreds.userid;
         next() 
         }
     }) 
