@@ -7,6 +7,7 @@ const Quizes = require("./quizes");
 const QuizActivity = require("./quizActivity");
 const Subjects = require("./subjects");
 const Users = require("./users");
+const RefreshToken = require("./refresh");
 
 // Set up ORM credentials
 const Sequelize = require("sequelize");
@@ -39,6 +40,8 @@ db.Sequelize = Sequelize;
 db.users = Users(sequelize, Sequelize);
 
 db.linked_accounts = LinkedAccounts(sequelize, Sequelize, db.users);
+
+db.refreshtoken = RefreshToken(sequelize, Sequelize);
 
 db.subjects = Subjects(sequelize, Sequelize);
 db.chapters = Chapters(sequelize, Sequelize, db.subjects);

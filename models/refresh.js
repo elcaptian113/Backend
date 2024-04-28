@@ -1,7 +1,8 @@
 module.exports = (sequelize, Sequelize) => {
     const RefreshToken = sequelize.define("refreshtoken", {
         username: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            primaryKey: true
         },
         token: {
             type: Sequelize.STRING

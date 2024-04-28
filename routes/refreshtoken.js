@@ -5,6 +5,6 @@ const controller = require('../controllers/refresh');
 
 router.post("/", controller.handleRefresh);
 router.post("/new", controller.create);
-router.delete("/", controller.deleting);
+router.delete('/', controller.deleting);
 
 module.exports = router;

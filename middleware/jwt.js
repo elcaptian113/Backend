@@ -10,7 +10,7 @@ generateAccessToken(userid, username, usertype) {
                     "username": username,
                     "usertype": usertype
                 }
-            }, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "20s"}) 
+            }, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "15m"}) 
      return accessToken
 },
 
@@ -29,6 +29,9 @@ generateRefreshToken(userid, username, usertype) {
 validateToken(req, res, next) {
         
     const authHeader = req.headers["authorization"]
+
+    if (authHeader == null) res.sendStatus(400).send("Token not present")
+
     const token = authHeader.split(" ")[1]
     
     if (token == null) res.sendStatus(400).send("Token not present")

@@ -1,8 +1,10 @@
+const jwt = require("jsonwebtoken");
 //import file dependencies for endpoints
 const utilities = require('../utilities/utility');
 const db = require('../models');
+const { generateAccessToken } = require("../middleware/jwt");
 
-const Users = db.refresh;
+const Users = db.refreshtoken;
 
 //POST endpoint for token record creation
 create = async (req, res) =>{
@@ -25,7 +27,8 @@ create = async (req, res) =>{
 
 //DELETE endpoint
 deleting = async (req, res) =>{
-    const username =req.body.value;
+    const username =req.body.id;
+    console.log(username);
     try{
         const deleted = await Users.destroy({where: { username: username }});
         if (deleted==0) {

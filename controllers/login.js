@@ -1,7 +1,7 @@
 
 const db = require('../models');
 const Users = db.users;
-const rToken = db.refresh;
+const rToken = db.refreshtoken;
 const bcrypt = require("bcrypt");
 const { generateAccessToken, generateRefreshToken } = require('../middleware/jwt');
 
@@ -32,14 +32,13 @@ loginHandler = async (req, res) =>{
             const accessToken = generateAccessToken ({userid: user[0].userid, username: user[0].username, usertype: user[0].usertype});
             const refreshToken = generateRefreshToken ({userid: user[0].userid, username: user[0].username, usertype: user[0].usertype});
 
-            console.log(user[0].username);
-            console.log(refreshToken);
+
             const userRefreshToken = {
                 username: user[0].username,
                 token: refreshToken
             };
-            console.log(userRefreshToken);
-            //await rToken.create(userRefreshToken);
+
+            await rToken.create(userRefreshToken);
             //res.status(201).json(userRefreshToken);
  
 
