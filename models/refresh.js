@@ -1,12 +1,10 @@
 module.exports = (sequelize, Sequelize) => {
-    const refreshTokenModel = sequelize.define("refreshtoken", {
+    const RefreshToken = sequelize.define("refreshtoken", {
         username: {
-            type: Sequelize.STRING,
-            allowNull: false
+            type: Sequelize.STRING
         },
         token: {
-            type: Sequelize.STRING,
-            allowNull: false
+            type: Sequelize.STRING
         }
     }, {
         timestamps: false,
@@ -14,5 +12,5 @@ module.exports = (sequelize, Sequelize) => {
         tableName: 'refreshtoken'
     });
 
-    return refreshTokenModel;
+    return RefreshToken;
 };
