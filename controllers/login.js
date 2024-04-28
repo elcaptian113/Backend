@@ -1,6 +1,6 @@
 const db = require('../models');
 const Users = db.users;
-const rToken = d.refresh;
+const rToken = db.refresh;
 const bcrypt = require("bcrypt");
 const { generateAccessToken, generateRefreshToken } = require('../middleware/jwt');
 
