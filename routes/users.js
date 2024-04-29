@@ -7,10 +7,10 @@ var router = express.Router();
 
 
 router.get('/', validateToken, verifyRole("ADMIN"), controller.getAll);
-router.get('/:id', controller.getById);
-router.get('/username/:value', controller.getByUsername);
+router.get('/:id', validateToken, controller.getById);
+router.get('/username/:value', validateToken, controller.getByUsername);
 router.post('/', controller.create);
-router.put('/', controller.update);
-router.delete('/', controller.deleting);
+router.put('/', validateToken, controller.update);
+router.delete('/', validateToken, verifyRole("ADMIN"), controller.deleting);
 
 module.exports = router;
