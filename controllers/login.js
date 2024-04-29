@@ -9,8 +9,8 @@ const { generateAccessToken, generateRefreshToken } = require('../middleware/jwt
 
 loginHandler = async (req, res) =>{
 
-    const username =req.body.username;
-    const password =req.body.password;
+    const username = req.body.username;
+    const password = req.body.password;
 
     if (!username || !password) 
         return res.status(400).json({ 'message': 'Username and password required.' });
