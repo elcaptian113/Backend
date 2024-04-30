@@ -27,21 +27,23 @@ generateRefreshToken(userid, username, usertype) {
 }, 
 
 validateToken(req, res, next) {
-        
+  
     const authHeader = req.headers["authorization"]
-
-    if (authHeader == null) res.sendStatus(400).send("Token not present")
+ 
+    if (authHeader == null ) res.sendStatus(400).send("Token not present")
 
     const token = authHeader.split(" ")[1]
     
-    if (token == null) res.sendStatus(400).send("Token not present")
+    if (token == null) res.sendStatus(401).send("Token not present")
 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
         if (err) { 
         res.status(403).send("Token invalid")
         }
         else {
-        req.user = user.userCreds.userid;
+        req.userid = user.userCreds.userid.userid;
+        req.username = user.userCreds.userid.username;
+        req.usertype = user.userCreds.userid.usertype;
         next() 
         }
     }) 

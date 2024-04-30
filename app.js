@@ -15,14 +15,17 @@ const linkedAccountsRouter = require('./routes/linkedAccounts');
 const courseActivityRouter = require('./routes/courseActivity');
 const chaptersRouter = require('./routes/chapters');
 const cors = require('cors');
+const corsOptions = require('./config/corsOptions');
 const cookieParser = require('cookie-parser');
+const creds = require('./middleware/creds');
 
 const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(logger('dev'));
-app.use(cors());
+app.use(creds);
+app.use(cors(corsOptions));
 app.get("/", (req, res) => {
     res.json( "Geek2Me REST API");
     })

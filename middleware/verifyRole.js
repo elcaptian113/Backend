@@ -1,10 +1,8 @@
 const verifyRole = (allowedRoles) => {
     return (req, res, next) => {
-        console.log(req.user.usertype);
-        if (!req?.user) return res.sendStatus(401);
+        if (!req?.usertype) return res.sendStatus(401);
         const authRole= allowedRoles;
-        console.log(authRole);
-        const role = req.user.usertype;
+        const role = req.usertype;
         if (role !== authRole) return res.sendStatus(401);
         next();
     }

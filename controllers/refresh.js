@@ -43,7 +43,7 @@ deleting = async (req, res) =>{
 
 
 handleRefresh = async (req, res) => {
-
+    console.log(req);
     const cookies = req.cookies;
     if (!cookies?.jwt) return res.sendStatus(401);
     const refreshToken = cookies.jwt;
