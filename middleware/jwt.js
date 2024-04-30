@@ -10,7 +10,7 @@ generateAccessToken(userid, username, usertype) {
                     "username": username,
                     "usertype": usertype
                 }
-            }, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "15m"}) 
+            }, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "10s"}) 
      return accessToken
 },
 
@@ -35,15 +35,26 @@ validateToken(req, res, next) {
     const token = authHeader.split(" ")[1]
     
     if (token == null) res.sendStatus(401).send("Token not present")
-
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
         if (err) { 
         res.status(403).send("Token invalid")
         }
         else {
-        req.userid = user.userCreds.userid.userid;
-        req.username = user.userCreds.userid.username;
-        req.usertype = user.userCreds.userid.usertype;
+            if(user.userCreds.userid >= 1){
+                req.userid = user.userCreds.userid;
+                req.username = user.userCreds.username;
+                req.usertype = user.userCreds.usertype;
+            }
+            else if (user.userCreds.userid.userid >= 1){
+                req.userid = user.userCreds.userid.userid;
+                req.username = user.userCreds.userid.username;
+                req.usertype = user.userCreds.userid.usertype;
+            }
+            else if (user.userCreds.userid.userid.userid >= 1){
+                req.userid = user.userCreds.userid.userid.userid;
+                req.username = user.userCreds.userid.userid.username;
+                req.usertype = user.userCreds.userid.userid.usertype;
+            }
         next() 
         }
     }) 

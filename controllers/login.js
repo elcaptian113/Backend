@@ -42,8 +42,8 @@ loginHandler = async (req, res) =>{
             //res.status(201).json(userRefreshToken);
  
 
-            res.cookie('jwt', refreshToken, { httpOnly: true, secure: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 });
-            res.json ({userid: user[0].userid, username: user[0].username, usertype: user[0].usertype, accessToken: accessToken});
+        
+            res.json ({userid: user[0].userid, username: user[0].username, usertype: user[0].usertype, accessToken: accessToken, refreshToken: refreshToken});
         } 
         else {
             res.status(401).send("Password Incorrect!")
