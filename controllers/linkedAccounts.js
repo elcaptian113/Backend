@@ -5,7 +5,7 @@ const db = require('../models');
 
 const Links = db.linked_accounts;
 
-//GET all quizes endpoint
+//GET all links endpoint
 getAll = async (req, res) =>{
  const links = await Links.findAll({order: ['linkid']});
  res.status(200).json(links);

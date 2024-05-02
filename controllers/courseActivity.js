@@ -32,6 +32,7 @@ getByUser = async (req, res) =>{
     const ca = await CA.findAll(
     {
         where: {userid: user},
+		order: [['date', 'DESC']],
     });
     if(ca.length==0){
     throw new Error("Unable to find a User with userID: " + user);

@@ -7,7 +7,14 @@ const Chapters = db.chapters;
 
 //GET all chapters endpoint
 getAll = async (req, res) =>{
- const chapters = await Chapters.findAll({order: ['chapterid']});
+ const chapters = await Chapters.findAll({
+    order: ['chapterid'],
+    include:[{
+        model: db.subjects,
+        attributes: {exclude: ['subjectid','level','number_of_chapters']},
+        required: true
+    }]
+});
  res.status(200).json(chapters);
 }
 
@@ -32,6 +39,12 @@ getBySubject = async (req, res) =>{
     try{
     const chapters = await Chapters.findAll(
     {where: {subjectid: subject},
+    order: ['chapterid'],
+    include:[{
+        model: db.subjects,
+        attributes: {exclude: ['subjectid','level','number_of_chapters']},
+        required: true
+    }]
     });
     if(chapters.length==0){
     throw new Error("Unable to find a Chapters belonging to: " + subject);

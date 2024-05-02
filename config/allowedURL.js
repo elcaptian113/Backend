@@ -1,5 +1,5 @@
 const allowedURL = [
-    'https://www.yoursite.com',
+    'https://www.geektome.deta.app',
     'http://localhost:3000'
 ];
 

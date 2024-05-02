@@ -7,7 +7,19 @@ const Modules = db.modules;
 
 //GET all modules endpoint
 getAll = async (req, res) =>{
- const modules = await Modules.findAll({order: ['moduleid']});
+ const modules = await Modules.findAll({
+    order: ['moduleid'],
+    include:[{
+        model: db.subjects,
+        attributes: {exclude: ['subjectid','level','number_of_chapters']},
+        required: true
+    },
+    {
+        model: db.chapters,
+        attributes: {exclude: ['chapterid','subjectid','chapter_name','number_of_modules']},
+        required: true,
+    }],
+});
  res.status(200).json(modules);
 }
 
@@ -32,6 +44,16 @@ getBySubject = async (req, res) =>{
     try{
     const modules = await Modules.findAll(
     {where: {subjectid: subject},
+    include:[{
+        model: db.subjects,
+        attributes: {exclude: ['subjectid','level','number_of_chapters']},
+        required: true
+    },
+    {
+        model: db.chapters,
+        attributes: {exclude: ['chapterid','subjectid','chapter_name','number_of_modules']},
+        required: true,
+    }],
     });
     if(modules.length==0){
     throw new Error("Unable to find Modules belonging to: " + subject);
@@ -49,6 +71,16 @@ getByChapter = async (req, res) =>{
     try{
     const modules = await Modules.findAll(
     {where: {chapterid: chapter},
+    include:[{
+        model: db.subjects,
+        attributes: {exclude: ['subjectid','level','number_of_chapters']},
+        required: true
+    },
+    {
+        model: db.chapters,
+        attributes: {exclude: ['chapterid','subjectid','chapter_name','number_of_modules']},
+        required: true,
+    }],
     });
     if(modules.length==0){
     throw new Error("Unable to find Modules belonging to: " + chapter);
