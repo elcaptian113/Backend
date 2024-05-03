@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize, Users) => {
-    const LinkedAccounts = sequelize.define("linked_accounts", {
+    const LinkedAccountsParents = sequelize.define("linked_accounts", {
         linkid: {
             type: Sequelize.INTEGER,
             primaryKey: true,
@@ -23,13 +23,10 @@ module.exports = (sequelize, Sequelize, Users) => {
         tableName: 'linked_accounts'
     });
 
-    LinkedAccounts.belongsTo(Users, {
+    LinkedAccountsParents.belongsTo(Users, {
         foreignKey: 'parentid'
     });
-    LinkedAccounts.belongsTo(Users, {
-        foreignKey: 'studentid'
-    });
 
 
-    return LinkedAccounts;
+    return LinkedAccountsParents;
 };

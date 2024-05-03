@@ -4,6 +4,8 @@ const db = require('../models');
 
 
 const Links = db.linked_accounts;
+const PLinks = db.linked_accountsP;
+const SLinks = db.linked_accountsS;
 
 //GET all links endpoint
 getAll = async (req, res) =>{
@@ -27,11 +29,39 @@ getById = async (req, res) =>{
 }
 
 //GET by parent ID endpoint
-getByParent = async (req, res) =>{
+getByParentApproved = async (req, res) =>{
     const parent =req.params.value;
     try{
-    const link = await Links.findAll(
-    {where: {parent: parent},
+    const link = await SLinks.findAll(
+    {where: {parentid: parent, status: 'approved'},
+    order: [['status', 'DESC']],
+    include:[{
+        model: db.users,
+        attributes: {exclude: ['userid','dob','password','usertype','date_joined']},
+        required: true
+    }],
+    });
+    if(link.length==0){
+    throw new Error("Unable to find Link request belonging to: " + parent);
+    }
+    res.status(200).json(link);
+    }
+    catch(error){
+    utilities.formatErrorResponse(res,400,error.message);
+    }
+ }
+
+ getByParentPending = async (req, res) =>{
+    const parent =req.params.value;
+    try{
+    const link = await SLinks.findAll(
+    {where: {parentid: parent, status: 'pending'},
+    order: [['status', 'DESC']],
+    include:[{
+        model: db.users,
+        attributes: {exclude: ['userid','dob','password','usertype','date_joined']},
+        required: true
+    }],
     });
     if(link.length==0){
     throw new Error("Unable to find Link request belonging to: " + parent);
@@ -44,11 +74,17 @@ getByParent = async (req, res) =>{
  }
 
  //GET by student ID endpoint
-getByStudent = async (req, res) =>{
+getByStudentPending = async (req, res) =>{
     const student =req.params.value;
     try{
-    const link = await Links.findAll(
-    {where: {student: student},
+    const link = await PLinks.findAll(
+    {where: {studentid: student, status: 'pending'},
+    order: [['status', 'DESC']],
+    include:[{
+        model: db.users,
+        attributes: {exclude: ['userid','dob','password','usertype','date_joined',]},
+        required: true
+    }]
     });
     if(link.length==0){
     throw new Error("Unable to find Link request belonging to: " + student);
@@ -60,17 +96,41 @@ getByStudent = async (req, res) =>{
     }
  }
 
+ getByStudentApproved = async (req, res) =>{
+    const student =req.params.value;
+    try{
+    const link = await PLinks.findAll(
+    {where: {studentid: student, status: 'approved'},
+    order: [['status', 'DESC']],
+    include:[{
+        model: db.users,
+        attributes: {exclude: ['userid','dob','password','usertype','date_joined',]},
+        required: true
+    }]
+    });
+    if(link.length===0){
+    throw new Error("Unable to find Link request belonging to: " + student);
+    }
+    res.status(200).json(link);
+    }
+    catch(error){
+    utilities.formatErrorResponse(res,400,error.message);
+    }
+ }
+
 //POST endpoint for link creation
 create = async (req, res) =>{
+    console.log(req.body);
     const link = {
-        parent: req.body.parent,
-        student: req.body.student,
+        parentid: req.body.parentid,
+        studentid: req.body.studentid,
         status: req.body.status
     };
+    console.log(link);
     try{
-        if(!link.parent || !link.student || !link.status){
-                throw new Error("Essential fields missing");
-            }
+        //if(!link.parentid || !link.studentid || !link.status){
+        //        throw new Error("Essential fields missing");
+         //   }
             await Links.create(link);
             res.status(201).json(link);
     }
@@ -85,12 +145,12 @@ create = async (req, res) =>{
 update = async (req, res) => {
     const id = req.body.id;
     const link = {
-        parent: req.body.parent,
-        student: req.body.student,
+        parentid: req.body.parentid,
+        studentid: req.body.studentid,
         status: req.body.status
     };
     try{
-        if(!link.parent || !link.student || !link.status){
+        if(!link.parentid || !link.studentid || !link.status){
             throw new Error("Essential fields missing");
         }
         await Links.update(link, { where: { linkid: id } });
@@ -116,4 +176,4 @@ deleting = async (req, res) =>{
 }
 
 //export all functions to enable access by other files
-module.exports = {getAll, getById, getByParent, getByStudent, create, update, deleting};
+module.exports = {getAll, getById, getByParentPending, getByStudentPending, getByParentApproved, getByStudentApproved, create, update, deleting};

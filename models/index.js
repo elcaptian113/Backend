@@ -2,6 +2,8 @@ const config = require("../config/config");
 const Chapters = require("./chapters");
 const CourseActivity = require("./courseActivity");
 const LinkedAccounts = require("./linkedAccounts");
+const LinkedAccountsParents = require("./linkedAccounts_parent");
+const LinkedAccountsStudents = require("./linkedAccounts_student");
 const Modules = require("./modules");
 const Quizes = require("./quizes");
 const QuizActivity = require("./quizActivity");
@@ -41,6 +43,8 @@ db.Sequelize = Sequelize;
 db.users = Users(sequelize, Sequelize);
 
 db.linked_accounts = LinkedAccounts(sequelize, Sequelize, db.users);
+db.linked_accountsP = LinkedAccountsParents(sequelize, Sequelize, db.users);
+db.linked_accountsS = LinkedAccountsStudents(sequelize, Sequelize, db.users);
 
 db.refreshtoken = RefreshToken(sequelize, Sequelize);
 
