@@ -33,6 +33,25 @@ getByUser = async (req, res) =>{
     {
         where: {userid: user},
 		order: [['date', 'DESC']],
+        include:[{
+            model: db.users,
+            attributes: {exclude: ['userid','dob','password','usertype','date_joined',]},
+            required: true
+        },{
+            model: db.modules,
+            attributes: {exclude: ['chapterid','subjectid','moduleid','module_number']},
+            required: true,
+            include: [{
+                model: db.chapters,
+                attributes: {exclude: ['chapterid','subjectid','chapter_number']},
+                required: true,
+                include: [{
+                    model: db.subjects,
+                    attributes: {exclude: ['subjectid','level']},
+                    required: true,
+                }]
+            }]
+        }],
     });
     if(ca.length==0){
     throw new Error("Unable to find a User with userID: " + user);

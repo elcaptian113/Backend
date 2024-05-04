@@ -14,7 +14,10 @@ getAll = async (req, res) =>{
 getById = async (req, res) =>{
     const id =req.params.id;
     try{
-    const user = await Users.findByPk(id);
+    const user = await Users.findByPk(id,{
+        attributes: {exclude: ['password']}
+    }  
+    );
     if(user==null || user.length==0){
     throw new Error("Unable to find User");
     }
@@ -30,7 +33,9 @@ getByUsername = async (req, res) =>{
     const username =req.params.value;
     try{
     const user = await Users.findAll(
-    {where: {username: username},
+    {
+        where: {username: username},
+        attributes: {exclude: ['password']}
     });
     if(user.length==0){
     throw new Error("Unable to find a User with username: " + username);

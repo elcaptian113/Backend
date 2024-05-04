@@ -10,7 +10,7 @@ registerHandler = async (req, res) =>{
     const lName = req.body.last_name
     const DOB = req.body.dob
     const password = req.body.password;
-    const hashedPassword = await bcrypt.hash(password,10);
+    const hashedPassword = await bcrypt.hash(password, 10);
     const accType = req.body.account_type
 
     if (!username || !password || !DOB || !accType) 
