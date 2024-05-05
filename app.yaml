@@ -1,0 +1,12 @@
+runtime: nodejs20
+
+env_variables:
+
+DB_HOST = 'auctionhouse-db.mysql.database.azure.com'
+DB_USER = 'dannyste'
+DB_PASSWORD = 'Inbound12345'
+DB_DATABASE = 'geektome_db'
+DB_PORT = 3306
+
+ACCESS_TOKEN_SECRET = 8c6258f9b130741fa81ebe606186b4981deca6ca1c414f66ca0192b2ce194eadb65ad66969f67de78a6cf6bbacc4fecd57e6773f49f84fefcb1ae2e5e749ddf0
+REFRESH_TOKEN_SECRET = 4565d4edd809d11c80eb63ea89b060cfee2b58be68524164fff7f68b7f8c00ef3dbb504effd0489219d88809e9e1fd46e751473469d6413576dc202dea211f95
