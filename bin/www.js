@@ -1,4 +1,4 @@
-require("dotenv").config()
+//require("dotenv").config()
 
 //declare core varibles and dependencies
 const app = require('../app');
