@@ -19,6 +19,7 @@ const cors = require('cors');
 const corsOptions = require('./config/corsOptions');
 const cookieParser = require('cookie-parser');
 const creds = require('./middleware/creds');
+const config = require('./config/config');
 
 const app = express();
 app.use(express.urlencoded({ extended: false }));
@@ -28,7 +29,7 @@ app.use(logger('dev'));
 app.use(creds);
 app.use(cors(corsOptions));
 app.get("/", (req, res) => {
-    res.json( "Geek2Me REST API");
+    res.json( 'Geek2Me REST API');
     })
 
 //set url routes

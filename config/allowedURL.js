@@ -1,5 +1,5 @@
 const allowedURL = [
-    'https://www.geektome.vercel.app',
+    'https://geektome.vercel.app',
     'http://localhost:3000'
 ];
 

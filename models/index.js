@@ -15,15 +15,16 @@ const Content = require("./content");
 // Set up ORM credentials
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize(
-  config.DB,
-  config.USER,
-  config.PASSWORD,
+  process.env.DB_DATABASE,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
   {
-    host: config.HOST,
-    dialect: config.dialect,
-    port: config.PORT
+    host: process.env.DB_HOST,
+    dialect: 'mysql',
+    port: process.env.DB_PORT
   }
 );
+
 
 // Set up ORM process for connections
 sequelize

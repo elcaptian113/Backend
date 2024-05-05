@@ -10,7 +10,7 @@ generateAccessToken(userid, username, usertype) {
                     "username": username,
                     "usertype": usertype
                 }
-            }, ACCESS_TOKEN_SECRET, {expiresIn: "10s"}) 
+            }, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "10s"}) 
      return accessToken
 },
 
@@ -22,7 +22,7 @@ generateRefreshToken(userid, username, usertype) {
                 "username": username,
                 "usertype": usertype
             }
-        }, REFRESH_TOKEN_SECRET, {expiresIn: "1d"})
+        }, process.env.REFRESH_TOKEN_SECRET, {expiresIn: "1d"})
     return refreshToken
 }, 
 
@@ -35,7 +35,7 @@ validateToken(req, res, next) {
     const token = authHeader.split(" ")[1]
     
     if (token == null) res.sendStatus(401).send("Token not present")
-    jwt.verify(token, ACCESS_TOKEN_SECRET, (err, user) => {
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
         if (err) { 
         res.status(403).send("Token invalid")
         }

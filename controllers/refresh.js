@@ -59,7 +59,7 @@ handleRefresh = async (req, res) => {
         else{
             jwt.verify(
                 refreshToken,
-                REFRESH_TOKEN_SECRET,
+                process.env.REFRESH_TOKEN_SECRET,
                 (err, user) => {
                     if (err || foundUser.username !== user.userCreds.username) return res.sendStatus(403);
                     
