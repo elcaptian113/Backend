@@ -1,8 +1,8 @@
-const urls = require('./allowedURL');
+const allowedURL = require('./allowedURL');
 
 const corsOptions = {
     origin: (origin, callback) => {
-        if (urls.indexOf(origin) !== -1 || !origin) {
+        if (allowedURL.indexOf(origin) !== -1 || !origin) {
             callback(null, true)
         } else {
             callback(new Error('Not allowed by CORS'));

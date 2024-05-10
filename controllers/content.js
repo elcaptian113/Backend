@@ -32,8 +32,6 @@ create = async (req, res) =>{
         heading: req.body.heading,
         academic: req.body.academic,
         translated: req.body.translated,
-        stranger_things: req.body.stranger_things,
-        riverdale: req.body.riverdale
     };
     try{
         if(!content.moduleid || !content.academic || !content.translated ){
@@ -57,8 +55,6 @@ update = async (req, res) => {
         heading: req.body.heading,
         academic: req.body.academic,
         translated: req.body.translated,
-        stranger_things: req.body.stranger_things,
-        riverdale: req.body.riverdale
     };
     try{
         if(!content.moduleid || !content.academic || !content.translated ){

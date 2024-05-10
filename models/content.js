@@ -17,14 +17,6 @@ module.exports = (sequelize, Sequelize, Modules) => {
             type: Sequelize.STRING,
             allowNull: false
         },
-        stranger_things: {
-            type: Sequelize.STRING,
-            allowNull: false
-        },
-        riverdale: {
-            type: Sequelize.STRING,
-            allowNull: false
-        }
     }, {
         timestamps: false,
         freezeTableName: true,
